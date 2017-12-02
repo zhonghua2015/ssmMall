@@ -1,6 +1,9 @@
 # kdiff3 ignore
 *.orig
 
+# Compiled class file
+*.class
+
 # maven ignore
 target/
 
@@ -27,9 +30,17 @@ target/
 .DS_Store
 Thumbs.db
 
-*.war
+
 # package ignore (optional)
+*.war
 # *.jar
 # *.zip
 # *.tar
 # *.tar.gz
+
+# Log file
+*.log
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
