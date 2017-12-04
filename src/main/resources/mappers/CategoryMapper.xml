@@ -21,7 +21,13 @@
     from mall_category
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectCategoryChilrenByParentId" parameterType="int" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from mall_category
+      where parent_id = #{parentId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mall_category
     where id = #{id,jdbcType=INTEGER}
   </delete>

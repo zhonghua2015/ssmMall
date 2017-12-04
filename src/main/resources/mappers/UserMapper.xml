@@ -32,12 +32,38 @@
     select
     <include refid="Base_Column_List" />
     from mall_user
-    where username = ${username}
-    and password = ${password}
+    where username = #{username}
+    and password = #{password}
   </select>
   <select id="checkEmail" parameterType="string" resultType="java.lang.Integer">
   select count(1) from mall_user
   where email = #{email}
+  </select>
+  <select id="selectQuestionByUsername" parameterType="string" resultType="java.lang.String">
+  select
+  question
+  from mall_user
+  where username = #{username}
+  </select>
+  <select id="checkAnswer" parameterType="map" resultType="int">
+  SELECT
+  count(1)
+  from mall_user
+  where username = #{username}
+  and question = #{question}
+  and answer = #{answer}
+  </select>
+  <select id="checkPassword" parameterType="map" resultType="int">
+    SELECT
+    count(1)
+    from mall_user
+    where id = #{userId}
+    and password = #{password}
+  </select>
+  <select id="checkEmailByUserId" parameterType="map" resultType="int">
+    select count(1) from mall_user
+    where email = #{email}
+    and id != #{userId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mall_user
@@ -165,5 +191,10 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updatePasswordByUsername" parameterType="map">
+  update mall_user
+  set password = #{passwordNew}, update_time = now()
+  where username = #{username}
   </update>
 </mapper>
