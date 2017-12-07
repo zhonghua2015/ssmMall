@@ -60,7 +60,7 @@ public class CategoryManagerController {
 
     @RequestMapping(value = "get_category.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(value = "categoryid", defaultValue = "0") int categoryid){
+    public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(value = "categoryId", defaultValue = "0") int categoryId){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登陆,请登陆");
@@ -68,7 +68,7 @@ public class CategoryManagerController {
         //check admin role
         if (iUserService.checkAdminRole(user).isSuccess()){
             //查询字节点category信息,保持平级不递归
-            return iCategoryService.getchilrenParallelCategory(categoryid);
+            return iCategoryService.getchilrenParallelCategory(categoryId);
         } else {
             return ServerResponse.createByErrorMessage("没有管理员权限操作");
         }
@@ -76,7 +76,7 @@ public class CategoryManagerController {
 
     @RequestMapping(value = "get_deep_category.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession session, @RequestParam(value = "categoryid", defaultValue = "0") int categoryid){
+    public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession session, @RequestParam(value = "categoryId", defaultValue = "0") int categoryId){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登陆,请登陆");
@@ -84,7 +84,7 @@ public class CategoryManagerController {
         //check admin role
         if (iUserService.checkAdminRole(user).isSuccess()){
             //查询字节点categoryId,递归查询字节点
-            return iCategoryService.selectCategoryAndChildrenById(categoryid);
+            return iCategoryService.selectCategoryAndChildrenById(categoryId);
         } else {
             return ServerResponse.createByErrorMessage("没有管理员权限操作");
         }
