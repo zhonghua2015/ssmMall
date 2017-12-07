@@ -21,9 +21,41 @@
     from mall_cart
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="selectByUserIdProductId" parameterType="map" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from mall_cart
+      where user_id = #{userId}
+      and product_id = #{productId}
+    </select>
+  <select id="selectCartByUserId" parameterType="int" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from mall_cart
+    where user_id = #{userId}
+  </select>
+  <select id="selectCartProductCheckedStatusByUserId" parameterType="int" resultType="java.lang.Integer">
+    select count(1)
+    from mall_cart
+    where checked =0
+    and user_id = #{userId}
+  </select>
+  <select id="selectCartProductCount" parameterType="int" resultType="java.lang.Integer">
+    select IFNULL(sum(quantity), 0) as count from mall_cart where user_id =#{userId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mall_cart
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByUserIdProductIds" parameterType="map">
+    delete from mall_cart
+    where user_id = #{userId}
+    <if test="productIds !=null">
+      and product_id in
+      <foreach item="item" index="index" open="(" separator="," close=")" collection="productIds">
+        #{item}
+      </foreach>
+    </if>
   </delete>
   <insert id="insert" parameterType="com.mall.pojo.Cart">
     insert into mall_cart (id, user_id, product_id, 
@@ -115,5 +147,14 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="checkedOrUncheckedProduct" parameterType="map">
+    update  mall_cart
+    set checked = #{checked},
+    update_time = now()
+    where user_id = #{userId}
+    <if test="productId !=null">
+      and product_id = #{productId}
+    </if>
   </update>
 </mapper>
